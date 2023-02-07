@@ -30,12 +30,10 @@
             switch (sequence[place]) {
               case "yellow":
                 if (stage) {
-                  console.log("back again");
                   document.getElementById("yellow").style.backgroundColor = "";
                   place++;
                   stage = false;
                 } else {
-                  console.log("there");
                   document.getElementById("yellow").style.backgroundColor =
                     "lightyellow";
                   stage = true;
