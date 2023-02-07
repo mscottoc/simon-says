@@ -7,37 +7,9 @@
     <title>Simon</title>
     <script>
       var highScore = 0;
-      var sequence = ["yellow", "green", "blue"];
-      var inputSequence = [];
-      const yellow = document.getElementById("yellow");
-      const blue = document.getElementById("blue");
-      const red = document.getElementById("red");
-      const green = document.getElementById("green");
-
-      function gameLoop() {
-        document.getElementById("start").style.visibility = "hidden";
-        var score = 0;
-        var input = "none";
-        let id = null;
-        showColor(0);
-        document.getElementById("high-score").innerHTML =
-          "High Score: " + highScore;
-        while (true) {
-          document.getElementById("score").innerHTML = "Score: " + score;
-          if (score > highScore) {
-            high_score = score;
-            document.getElementById("high-score").innerHTML =
-              "High Score: " + high_score;
-          }
-          if (!newTurn()) {
-            input = [];
-            sequence = [];
-            return;
-          }
-          score++;
-        }
-      }
-
+      var sequence = [];
+      var inputOrder = 0;
+      var score = 0;
       //resets the color of all the buttons to default
       function resetColor() {
         yellow.style.backgroundColor = "";
@@ -50,51 +22,56 @@
       //flashes the colors in order of the sequence
       function showColor() {
         let id = null;
-        sequenceI = sequence;
-        id = setInterval(flash, 1000);
-        function flash() {
         let place = 0;
-        let stage = 0;
+        let stage = false;
+        id = setInterval(flash, 500, sequence);
+        function flash(sequence) {
           if (place < sequence.length) {
             switch (sequence[place]) {
               case "yellow":
                 if (stage) {
-                  get.style.backgroundColor = "";
+                  console.log("back again");
+                  document.getElementById("yellow").style.backgroundColor = "";
                   place++;
-                  stage = 0;
+                  stage = false;
                 } else {
-                  yellow.style.backgroundColor = "lightyellow";
-                  stage = 1;
+                  console.log("there");
+                  document.getElementById("yellow").style.backgroundColor =
+                    "lightyellow";
+                  stage = true;
                 }
                 break;
               case "blue":
                 if (stage) {
-                  blue.style.backgroundColor = "";
+                  document.getElementById("blue").style.backgroundColor = "";
                   place++;
-                  stage = 0;
+                  stage = false;
                 } else {
-                  blue.style.backgroundColor = "lightblue";
-                  stage = 1;
+                  document.getElementById("blue").style.backgroundColor =
+                    "lightblue";
+                  stage = true;
                 }
                 break;
               case "red":
                 if (stage) {
-                  red.style.backgroundColor = "";
+                  document.getElementById("red").style.backgroundColor = "";
                   place++;
-                  stage = 0;
+                  stage = false;
                 } else {
-                  red.style.backgroundColor = "lightpink";
-                  stage = 1;
+                  document.getElementById("red").style.backgroundColor =
+                    "lightpink";
+                  stage = true;
                 }
                 break;
               case "green":
                 if (stage) {
-                  green.style.backgroundColor = "";
+                  document.getElementById("green").style.backgroundColor = "";
                   place++;
-                  stage = 0;
+                  stage = false;
                 } else {
-                  green.style.backgroundColor = "lightgreen";
-                  stage = 1;
+                  document.getElementById("green").style.backgroundColor =
+                    "lightgreen";
+                  stage = true;
                 }
                 break;
             }
@@ -104,8 +81,26 @@
         }
       }
 
+      function userPush(input) {
+        if (input != sequence[inputOrder]) {
+          gameOver();
+          return;
+        }
+        inputOrder++;
+        if (inputOrder == sequence.length) {
+          score++;
+          console.log("# of inputs:" + inputOrder);
+          console.log("# of outputs:" + sequence.length);
+          if (score > highScore) {
+            highScore = score;
+          }
+          inputOrder = 0;
+          newTurn();
+        }
+      }
+
       function newColor() {
-        switch (Math.random % 4) {
+        switch (Math.floor(Math.random() * 4)) {
           case 0:
             return "yellow";
           case 1:
@@ -118,35 +113,61 @@
       }
 
       function newTurn() {
-        sequence = [sequence, newColor()];
-        showColor(0);
-        return false;
+        document.getElementById("high-score").innerHTML =
+          "High Score: " + highScore;
+        document.getElementById("score").innerHTML = "Score: " + score;
+
+        sequence.push(newColor());
+        showColor();
+
+        console.log("# of inputs:" + inputOrder);
+      }
+      function gameOver() {
+        document.getElementById("start").style.visibility = "visible";
+        sequence = [];
+      }
+
+      function gameStart() {
+        sequence = [];
+        inputOrder = 0;
+        score = 0;
+        document.getElementById("start").style.visibility = "hidden";
+        newTurn();
       }
     </script>
   </head>
   <body>
-    <div id="title"><h1>Simon Says!</h1></div>
-    <div id="group">
-      <button id="yellow">yellow</button>
-      <button id="blue">blue</button>
-      <button id="red">red</button>
-      <button id="green">green</button>
-      <button id="start" onclick="gameLoop()">Start</button>
-      <h2 id="score"></h2>
-      <h2 id="high-score"></h2>
-    </div>
+    <main>
+      <div id="title"><h1>Simon Says!</h1></div>
+      <div id="group">
+        <button id="yellow" onclick="userPush('yellow')">yellow</button>
+        <button id="blue" onclick="userPush('blue')">blue</button>
+        <button id="red" onclick="userPush('red')">red</button>
+        <button id="green" onclick="userPush('green')">green</button>
+        <button id="start" onclick="gameStart()">Start</button>
+        <h2 id="score"></h2>
+        <h2 id="high-score"></h2>
+      </div>
+    </main>
   </body>
 </html>
 
 <style>
-  body {
+  main {
     font-family: "Courier New", Courier, monospace;
+    border-radius: 100px;
+    background-color: lightgray;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h2 {
+    justify-self: center;
   }
   #group {
     display: grid;
     grid-template: 1fr 1fr;
   }
-
   #title {
     margin: 0 auto;
     grid-row: 1/2;
