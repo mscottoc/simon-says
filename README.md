@@ -4,7 +4,7 @@ I made two seperate javascript programs. The first is a game of simon says, wher
 
 My goal was to practice CSS and HTML output, array functions, recursion, and using external libraries in the form of a cnd link. I was originaly only planning on making simon says however this did not meet all of my goals, so I added the word cownter to cover the use of libraries and recursion.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/dIrGDSOqOkU)
 
 # Development Environment
 
