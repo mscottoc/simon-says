@@ -40,11 +40,11 @@
             }
           } else if (
             (passage[place] == " " || passage[place] == "\n") &&
-            passage[place - 1] != " " &&
-            passage[place - 1] != "." &&
-            passage[place - 1] != "!" &&
-            passage[place - 1] != "?" &&
-            passage[place - 1] != "\n" &&
+            passage[place + 1] != " " &&
+            passage[place + 1] != "." &&
+            passage[place + 1] != "!" &&
+            passage[place + 1] != "?" &&
+            passage[place + 1] != "\n" &&
             passage[place + 1] != null
           ) {
             wordCount = +count(passage, place + 1) + 1;
