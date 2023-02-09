@@ -7,16 +7,60 @@
     <title>Word Count</title>
     <script src="./cowtwo.js"></script>
     <script>
-      var say = window.cowsay;
-      function test() {
-      document.getElementById("out").innerHTML = say("stuff");
+      function begin() {
+        var input = document.getElementsByName("text-in")[0].value;
+        document.getElementById("text-out").innerHTML =
+          "There are " + count(input) + " words.";
+      }
+
+      function count(passage, place = 0) {
+        var wordCount;
+        if (passage[place] != null) {
+          if (place == 0) {
+            if (passage[1] != null) {
+              console.log("new word! " + wordCount + " " + passage[place]);
+              wordCount = count(passage, 1) + 1;
+              console.log("new word@ " + wordCount + " " + passage[place]);
+              return wordCount;
+            } else {
+              console.log("one word# " + wordCount + " " + passage[place]);
+              return 1;
+            }
+          } else if (
+            (passage[place] == " " || passage[place] == "\n") &&
+            passage[place - 1] != " " &&
+            passage[place - 1] != "." &&
+            passage[place - 1] != "!" &&
+            passage[place - 1] != "?" &&
+            passage[place - 1] != "\n" &&
+            passage[place + 1] != null
+          ) {
+            wordCount =+ count(passage, place + 1) + 1;
+            console.log("new word$ " + wordCount + " " + passage[place]);
+            return wordCount;
+          } else {
+            return count(passage, place + 1);
+          }
+        } else {
+          return 0;
+        }
       }
     </script>
   </head>
   <body>
-    <header id="out">HI!</header>
+    <header><h1>Word Counter</h1></header>
     <main>
-      <form action="" method="get">enter a passage here: </form>
+      <div>
+        <textarea
+          rows="5"
+          cols="60"
+          name="text-in"
+          placeholder="Enter Passage Here"
+        ></textarea>
+        <br />
+      </div>
+      <button id="count" onclick="begin()">COUNT</button>
+      <p id="text-out"></p>
     </main>
   </body>
 </html>
