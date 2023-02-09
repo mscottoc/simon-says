@@ -4,13 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word Count</title>
-    <script src="./cowtwo.js"></script>
+    <title>Word Cownt</title>
+    <script src="https://cdn.jsdelivr.net/npm/cowsay@1.5.0/build/cowsay.umd.min.js"></script>
     <script>
       function begin() {
         var input = document.getElementsByName("text-in")[0].value;
-        document.getElementById("text-out").innerHTML =
-          "There are " + count(input) + " words.";
+        document.getElementById("text-out").innerHTML = convertToHTML(
+          cowsay.say({ text: "There are " + count(input) + " words." })
+        );
+        console.log(
+          convertToHTML(
+            cowsay.say({ text: "There are " + count(input) + " words." })
+          )
+        );
+      }
+
+      function convertToHTML(text) {
+        let newText = text.replaceAll(" ", "&nbsp;");
+        newText = newText.replaceAll("\n", "<br>");
+        return newText;
       }
 
       function count(passage, place = 0) {
@@ -35,7 +47,7 @@
             passage[place - 1] != "\n" &&
             passage[place + 1] != null
           ) {
-            wordCount =+ count(passage, place + 1) + 1;
+            wordCount = +count(passage, place + 1) + 1;
             console.log("new word$ " + wordCount + " " + passage[place]);
             return wordCount;
           } else {
@@ -48,7 +60,7 @@
     </script>
   </head>
   <body>
-    <header><h1>Word Counter</h1></header>
+    <header><h1>Word Cownter</h1></header>
     <main>
       <div>
         <textarea
@@ -59,8 +71,23 @@
         ></textarea>
         <br />
       </div>
-      <button id="count" onclick="begin()">COUNT</button>
-      <p id="text-out"></p>
+      <button id="count" onclick="begin()">COWNT</button>
+      <h3 id="text-out">
+        &nbsp;___<br />
+        &lt;&nbsp;&nbsp; &gt;<br />
+        &nbsp;---<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;^__^<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;(oo)\_______<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(__)\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)\/\<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||----w&nbsp;|<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||
+      </h3>
     </main>
   </body>
 </html>
+
+<style>
+  #text-out {
+    font-family: "Courier New", Courier, monospace;
+    height: fit-content;
+    width: fit-content;
+  }
+</style>
